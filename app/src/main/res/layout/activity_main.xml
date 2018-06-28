@@ -19,4 +19,20 @@
         android:text="@string/record"
         android:layout_alignParentBottom="true"/>
 
+    <Button
+        android:id="@+id/btnOpenGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_gallery"
+        android:layout_toEndOf="@id/btnRecord"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/btnPlayStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/play"
+        android:layout_toEndOf="@id/btnOpenGallery"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>

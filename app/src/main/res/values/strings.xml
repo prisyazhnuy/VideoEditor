@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">VideoEditor</string>
     <string name="record">Record</string>
+    <string name="open_gallery">Open Gallery</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
 </resources>
