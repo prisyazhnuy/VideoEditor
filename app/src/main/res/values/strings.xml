@@ -4,4 +4,9 @@
     <string name="open_gallery">Open Gallery</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
+    <string name="mute">Mute</string>
+    <string name="custom">Custom</string>
+    <string name="cut">Cut</string>
+    <string name="add_music">Add music</string>
+    <string name="load_audio">Load audio</string>
 </resources>

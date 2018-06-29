@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_mute"
+        android:title="@string/mute"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_cut"
+        android:title="@string/cut"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_add_music"
+        android:title="@string/add_music"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_custom"
+        android:title="@string/custom"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_load_audio"
+        android:title="@string/load_audio"
+        app:showAsAction="never"
+        />
+</menu>

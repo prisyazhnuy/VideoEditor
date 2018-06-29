@@ -35,4 +35,12 @@
         android:layout_toEndOf="@id/btnOpenGallery"
         android:layout_alignParentBottom="true"/>
 
+    <Button
+        android:id="@+id/btnMute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mute"
+        android:layout_toEndOf="@id/btnPlayStop"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>
