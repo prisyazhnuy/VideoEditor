@@ -30,4 +30,10 @@
         android:title="@string/load_audio"
         app:showAsAction="never"
         />
+
+    <item
+        android:id="@+id/action_details"
+        android:title="@string/details"
+        app:showAsAction="never"
+        />
 </menu>

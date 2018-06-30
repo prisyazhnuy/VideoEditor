@@ -9,4 +9,5 @@
     <string name="cut">Cut</string>
     <string name="add_music">Add music</string>
     <string name="load_audio">Load audio</string>
+    <string name="details">Details</string>
 </resources>

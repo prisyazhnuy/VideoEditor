@@ -15,6 +15,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.MenuItem
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         btnRecord.setOnClickListener { dispatchTakeVideoIntent() }
         btnOpenGallery.setOnClickListener { openGalleryForVideo() }
         btnPlayStop.setOnClickListener { playStopVideo() }
-        btnMute.setOnClickListener { muteVideo() }
         with(RxPermissions(this)) {
             request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe { granted ->
@@ -81,6 +81,8 @@ class MainActivity : AppCompatActivity() {
             R.id.action_cut -> cutVideo()
             R.id.action_load_audio -> openAudioPicker()
             R.id.action_add_music -> changeAudio()
+            R.id.action_details -> viewVideoInformation()
+            R.id.action_custom -> scaleVideo()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -101,8 +103,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun openAudioPicker() {
         Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI).apply {
-            //            type = "audio/*"
-//            action = Intent.ACTION_GET_CONTENT
             startActivityForResult(this, REQUEST_AUDIO_PICKER)
         }
     }
@@ -131,15 +131,8 @@ class MainActivity : AppCompatActivity() {
         return res
     }
 
-    private fun cutVideo() {
-        val startTime = "00:00:00.0"
-        val duration = "00:00:05.0"
-        val output = selectedVideoPath?.replace(".avi", "(1).avi")?.replace(".mp4", "(1).mp4")
-        val cmd = arrayOf("-i", selectedVideoPath, "-qscale", "0", "-ss", startTime, "-t", duration, output)
-        executeCmd(cmd)
-    }
-
     private fun executeCmd(cmd: Array<String?>) {
+        ffmpeg.killRunningProcesses()
         ffmpeg.execute(cmd, object : FFmpegExecuteResponseHandler {
             override fun onFinish() {
                 Log.d("TAG", "onFinish")
@@ -152,21 +145,25 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSuccess(message: String?) {
                 Log.d("TAG", "onSuccess $message")
+                AlertDialog.Builder(this@MainActivity).apply {
+                    setMessage(message)
+                    setCancelable(true)
+                    show()
+                }
             }
 
             override fun onFailure(message: String?) {
                 Log.d("TAG", "onFailure $message")
-
+                AlertDialog.Builder(this@MainActivity).apply {
+                    setMessage(message)
+                    setCancelable(true)
+                    show()
+                }
             }
 
             override fun onProgress(message: String?) {
                 Log.d("TAG", "onProgress $message")
-//                AlertDialog.Builder(this@MainActivity).apply {
-//                    setMessage(message)
-//                    setCancelable(true)
-//                    show()
-//                }
-
+                tvProgress.text = message
             }
 
             override fun onStart() {
@@ -176,15 +173,38 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun cutVideo() {
+        val startTime = "00:00:00.0"
+        val duration = "00:00:05.0"
+        val output = selectedVideoPath?.replace(".avi", "(1).avi")?.replace(".mp4", "(1).mp4")
+        File(output).delete()
+        val cmd = arrayOf("-i", selectedVideoPath, "-qscale", "0", "-ss", startTime, "-t", duration, output)
+        executeCmd(cmd)
+    }
+
     private fun muteVideo() {
         val output = selectedVideoPath?.replace(".avi", "(1).avi")?.replace(".mp4", "(1).mp4")
+        File(output).delete()
         val cmd = arrayOf("-i", selectedVideoPath, "-c", "copy", "-an", output)
         executeCmd(cmd)
     }
 
     private fun changeAudio() {
         val output = selectedVideoPath?.replace(".avi", "(1).avi")?.replace(".mp4", "(1).mp4")
+        File(output).delete()
         val cmd = arrayOf("-i", selectedVideoPath, "-i", audioFilePath, "-c:v", "copy", "-map", "0:v:0", "-map", "1:a:0", "-shortest", output)
+        executeCmd(cmd)
+    }
+
+    private fun viewVideoInformation() {
+        val cmd = arrayOf("-i", selectedVideoPath, "-hide_banner")
+        executeCmd(cmd)
+    }
+
+    private fun scaleVideo() {
+        val output = selectedVideoPath?.replace(".avi", "(1).avi")?.replace(".mp4", "(1).mp4")
+        File(output).delete()
+        val cmd = arrayOf("-i", selectedVideoPath, "-vf", "scale=1280:720", output)
         executeCmd(cmd)
     }
 
